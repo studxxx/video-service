@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  frontend-nginx:
+    build:
+      context: ./frontend/docker
+      dockerfile: Dockerfile
+    volumes:
+    - ./frontend:/var/www/frontend
+    ports:
+    - "8080:80"
