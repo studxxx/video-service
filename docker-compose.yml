@@ -3,7 +3,7 @@ services:
   frontend-nginx:
     build:
       context: ./frontend/docker
-      dockerfile: Dockerfile
+      dockerfile: nginx.docker
     volumes:
     - ./frontend:/var/www/frontend
     ports:
