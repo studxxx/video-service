@@ -12,8 +12,8 @@
 
     <footer class="app-footer">
       <div class="container">
-        <hr>
-        <p>&copy; App. All right reserved.</p>
+        <hr />
+        <p>&copy; App. All rights reserved.</p>
       </div>
     </footer>
 
@@ -41,6 +41,8 @@
 
   #app {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column
   }
 
   .app-content {
