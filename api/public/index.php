@@ -2,9 +2,21 @@
 
 declare(strict_types=1);
 
-header('Content-Type: application/json');
+use Api\Http\Action;
+use Slim\{App, Container};
+use Symfony\Component\Dotenv\Dotenv;
 
-echo json_encode([
-    'name' => 'App API',
-    'version' => '1.0'
-]);
+chdir(dirname(__DIR__));
+require 'vendor/autoload.php';
+
+if (file_exists('.env')) {
+    (new Dotenv())->load('.env');
+}
+
+$config = require 'config/config.php';
+$container = new Container($config);
+$app = new App($container);
+
+$app->get('/', Action\HomeAction::class . ':handle');
+
+$app->run();
