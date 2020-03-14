@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="jombotron">
+    <div class="jumbotron">
       <h1>Wellcome to App</h1>
       <p>
         Congratulations! You have successfully created new application.
