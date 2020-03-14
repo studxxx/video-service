@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Api\Test\Unit\Http\Action;
+namespace Api\Test\Feature;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
@@ -11,23 +12,8 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Uri;
 
-class HomeActionFunctionalTest extends TestCase
+class WebTestCase extends TestCase
 {
-    public function testSuccess(): void
-    {
-        $response = $this->get('/');
-
-        self::assertEquals(200, $response->getStatusCode());
-        self::assertJson($content = $response->getBody()->getContents());
-
-        $data = \json_decode($content, true);
-
-        self::assertEquals([
-            'name' => 'App API',
-            'version' => '1.0',
-        ], $data);
-    }
-
     protected function get(string $uri): ResponseInterface
     {
         return $this->method($uri, 'GET');
@@ -52,7 +38,8 @@ class HomeActionFunctionalTest extends TestCase
 
     protected function app(): App
     {
-        $app = new App($this->container());
+        $container = $this->container();
+        $app = new App($container);
         (require 'config/routes.php')($app);
 
         return $app;
