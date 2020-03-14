@@ -31,7 +31,20 @@
 </script>
 
 <style lang="scss">
+  @import "~bootstrap/dist/css/bootstrap.css";
+  @import "~bootstrap-vue/dist/bootstrap-vue.css";
+  @import "~@fortawesome/fontawesome-free/css/all.css";
+
   body {
     min-height: 100vh;
+  }
+
+  #app {
+    min-height: 100vh;
+  }
+
+  .app-content {
+    flex: 1;
+    padding: 1rem 0;
   }
 </style>
