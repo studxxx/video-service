@@ -17,6 +17,6 @@ $config = require 'config/config.php';
 $container = new Container($config);
 $app = new App($container);
 
-$app->get('/', Action\HomeAction::class . ':handle');
+(require 'config/routes.php')($app);
 
 $app->run();
