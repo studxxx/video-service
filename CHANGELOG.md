@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this **shop** project will be documented in this file. 
 
+## [0.0.1] - 2020-03-14
+### Added
+- basic api app
+- basic frontend app
+- configured tests for backend
+
 ## [0.0.0] - 2020-03-09
 ### Added
 - README.md
