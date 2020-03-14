@@ -9,7 +9,13 @@
          verbose="true">
     <testsuites>
         <testsuite name="default">
-            <directory suffix="Test.php">tests</directory>
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+        <testsuite name="feature">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
     </testsuites>
 
@@ -18,4 +24,7 @@
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+    <php>
+        <env name="APP_DEBUG" value="1"/>
+    </php>
 </phpunit>
