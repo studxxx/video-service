@@ -2,17 +2,20 @@
 
 namespace Api\Test\Unit\Http\Action;
 
-use Api\Http\Action\HomeAction;
 use PHPUnit\Framework\TestCase;
+use Slim\App;
+use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequest;
 
-class HomeActionTest extends TestCase
+class HomeActionFunctionalTest extends TestCase
 {
     public function testSuccess(): void
     {
-        $action = new HomeAction();
-
-        $response = $action->handle(new ServerRequest());
+        $container = require 'config/container.php';
+        $app = new App($container);
+        (require 'config/routes.php')($app);
+        $request = new ServerRequest();
+        $response = $app->process($request, new Response());
 
         self::assertEquals(200, $response->getStatusCode());
         self::assertJson($content = $response->getBody()->getContents());
