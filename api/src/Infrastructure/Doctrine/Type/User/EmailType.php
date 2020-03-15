@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Infrastructure\Doctrine\Type\User\Entity;
+namespace Api\Infrastructure\Doctrine\Type\User;
 
-use Api\Model\User\Entity\User\UserId;
+use Api\Model\User\Entity\User\Email;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\GuidType;
+use Doctrine\DBAL\Types\StringType;
 
-class UserIdType extends GuidType
+class EmailType extends StringType
 {
-    public const NAME = 'user_user_id';
+    public const NAME = 'user_user_email';
 
     public function getName(): string
     {
@@ -18,11 +18,11 @@ class UserIdType extends GuidType
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return $value instanceof UserId ? $value->getId() : $value;
+        return $value instanceof Email ? $value->getEmail() : $value;
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return !empty($value) ? new UserId($value) : null;
+        return !empty($value) ? new Email($value) : null;
     }
 }

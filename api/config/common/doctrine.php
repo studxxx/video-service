@@ -40,8 +40,8 @@ return [
                 'url' => getenv('API_DB_URL'),
             ],
             'types' => [
-                Type\User\Entity\UserIdType::NAME => Type\User\Entity\UserIdType::class,
-                Type\User\Entity\EmailType::NAME => Type\User\Entity\EmailType::class,
+                Type\User\UserIdType::NAME => Type\User\UserIdType::class,
+                Type\User\EmailType::NAME => Type\User\EmailType::class,
             ],
         ],
     ],
