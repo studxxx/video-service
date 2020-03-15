@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Setup;
 use Psr\Container\ContainerInterface;
 
-return array(
+return [
     EntityManagerInterface::class => function (ContainerInterface $container) {
         $params = $container['config']['doctrine'];
         $config = Setup::createAnnotationMetadataConfiguration(
@@ -29,16 +29,20 @@ return array(
         return EntityManager::create($params['connection'], $config);
     },
 
-    'config' => array(
-        'doctrine' => array(
+    'config' => [
+        'doctrine' => [
             'dev_mode' => false,
             'cache_dir' => 'var/cache/doctrine',
-            'metadata_dirs' => array('src/Model/User/Entity'),
-            'connection' => array('url' => getenv('API_DB_URL'))
-        ),
-        'types' => array(
-            Type\User\UserIdType::NAME => Type\User\UserIdType::class,
-            Type\User\EmailType::NAME => Type\User\EmailType::class,
-        )
-    ),
-);
+            'metadata_dirs' => [
+                'src/Model/User/Entity',
+            ],
+            'connection' => [
+                'url' => getenv('API_DB_URL'),
+            ],
+            'types' => [
+                Type\User\UserIdType::NAME => Type\User\UserIdType::class,
+                Type\User\EmailType::NAME => Type\User\EmailType::class,
+            ],
+        ],
+    ],
+];
