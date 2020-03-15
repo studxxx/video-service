@@ -6,6 +6,7 @@
     "php": ">=7.1.0",
     "ext-json": "^1.5",
     "ext-mbstring": "*",
+    "doctrine/orm": "^2.7",
     "psr/http-server-handler": "^1.0",
     "ramsey/uuid": "^3.9",
     "slim/slim": "^3.12.3",
