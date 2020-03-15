@@ -37,3 +37,13 @@ services:
     - ./api:/var/www/api
     working_dir: /var/www/api
     tty: true
+  api-postgres:
+    image: postgres:9.6-alpine
+    volumes:
+    - ./api/var/docker/postgres:/var/lig/postgresql/data
+    environment:
+      - "POSTGRES_USER=api"
+      - "POSTGRES_PASSWORD=secret"
+      - "POSTGRES_DB=api"
+    ports:
+    - "54321:5432"
