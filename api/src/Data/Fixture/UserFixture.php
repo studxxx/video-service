@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Data\Fixtures;
+namespace Api\Data\Fixture;
 
 use Api\Model\User\Entity\User\ConfirmToken;
 use Api\Model\User\Entity\User\Email;
