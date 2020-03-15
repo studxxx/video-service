@@ -23,7 +23,7 @@ return [
 
     'config' => [
         'doctrine' => [
-            'dev_mode' => true,
+            'dev_mode' => false,
             'cache_dir' => 'var/cache/doctrine',
             'metadata_dirs' => ['src/Model/User/Entity'],
             'connection' => ['url' => getenv('API_DB_URL')]
