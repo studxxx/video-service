@@ -6,4 +6,5 @@ use Slim\App;
 
 return function (App $app) {
     $app->get('/', Action\HomeAction::class . ':handle');
+    $app->post('/auth/signup', Action\Auth\SignUp\RequestAction::class . ':handle');
 };
