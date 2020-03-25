@@ -9,6 +9,7 @@
     "doctrine/migrations": "^2.2",
     "doctrine/orm": "^2.7",
     "psr/http-server-handler": "^1.0",
+    "psr/http-server-middleware": "^1.0",
     "ramsey/uuid": "^3.9",
     "slim/slim": "^3.12.3",
     "symfony/console": "^4.4",

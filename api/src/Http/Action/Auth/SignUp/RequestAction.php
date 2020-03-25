@@ -5,7 +5,6 @@ namespace Api\Http\Action\Auth\SignUp;
 
 use Api\Model\User\UseCase\SignUp\Request\Command;
 use Api\Model\User\UseCase\SignUp\Request\Handler;
-use DomainException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -30,11 +29,7 @@ class RequestAction implements RequestHandlerInterface
         $command->email = $body['email'] ?? '';
         $command->password = $body['password'] ?? '';
 
-        try {
-            $this->handler->handle($command);
-        } catch (DomainException $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 400);
-        }
+        $this->handler->handle($command);
 
         return new JsonResponse(['email' => $command->email], 201);
     }
