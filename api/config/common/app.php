@@ -17,6 +17,12 @@ return [
         );
     },
 
+    Action\Auth\SignUp\ConfirmAction::class => function (ContainerInterface $container) {
+        return new Action\Auth\SignUp\ConfirmAction(
+            $container->get(Model\User\UseCase\SignUp\Confirm\Handler::class),
+        );
+    },
+
     Middleware\DomainExceptionMiddleware::class => function () {
         return new Middleware\DomainExceptionMiddleware();
     },

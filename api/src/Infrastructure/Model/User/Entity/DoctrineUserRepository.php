@@ -2,11 +2,11 @@
 
 namespace Api\Infrastructure\Model\User\Entity;
 
+use Api\Model\EntityNotFoundException;
 use Api\Model\User\Entity\User\Email;
 use Api\Model\User\Entity\User\User;
 use Api\Model\User\Entity\User\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityRepository;
 
 class DoctrineUserRepository implements UserRepository
@@ -35,7 +35,7 @@ class DoctrineUserRepository implements UserRepository
     {
         /** @var User $user */
         if (!$user = $this->repo->findOneBy(['email' => $email->getEmail()])) {
-            throw new EntityNotFoundException('User not found.');
+            throw new EntityNotFoundException('User is not found.');
         }
         return $user;
     }
