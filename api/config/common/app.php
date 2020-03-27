@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Api\Http\Action;
+use Api\Http\Validator\Validator as HttpValidator;
 use Api\Model;
 use Api\Http\Middleware;
 use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -16,6 +17,10 @@ return [
             ->getValidator();
     },
 
+    HttpValidator::class => function (ContainerInterface $container) {
+        return new HttpValidator($container->get(Validator\Validator\ValidatorInterface::class));
+    },
+
     Middleware\DomainExceptionMiddleware::class => function () {
         return new Middleware\DomainExceptionMiddleware();
     },
@@ -27,7 +32,7 @@ return [
     Action\Auth\SignUp\RequestAction::class => function (ContainerInterface $container) {
         return new Action\Auth\SignUp\RequestAction(
             $container->get(Model\User\UseCase\SignUp\Request\Handler::class),
-            $container->get(Validator\Validator\ValidatorInterface::class)
+            $container->get(Api\Http\Validator\Validator::class)
         );
     },
 
