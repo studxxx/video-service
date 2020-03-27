@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Api\Http\Action\Auth\SignUp;
 
 use Api\Http\Validator\Validator;
+use Api\Http\ValidatorException;
 use Api\Model\User\UseCase\SignUp\Request\Command;
 use Api\Model\User\UseCase\SignUp\Request\Handler;
 use Psr\Http\Message\ResponseInterface;
@@ -34,7 +35,7 @@ class RequestAction implements RequestHandlerInterface
         $command->password = $body['password'] ?? '';
 
         if ($errors = $this->validator->validate($command)) {
-            return new JsonResponse(['errors' => $errors->toArray()], 400);
+            throw new ValidatorException($errors);
         }
 
         $this->handler->handle($command);
