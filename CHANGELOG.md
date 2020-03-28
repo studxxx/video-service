@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this **shop** project will be documented in this file.
 
+## [0.0.3] - 2020-03-28
+### Added
+- mailer
+- logger
+- event dispatcher and listener
+- mailer container
+- libraries swiftmailer/swiftmailer, geekdevs/swift-mailer-extensions, monolog/monolog
+
 ## [0.0.2] - 2020-03-28
 ### Added
 - User domain
