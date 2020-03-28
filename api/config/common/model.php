@@ -13,7 +13,10 @@ use Psr\Container\ContainerInterface;
 
 return [
     Flusher::class => function (ContainerInterface $container) {
-        return new DoctrineFlusher($container->get(EntityManagerInterface::class));
+        return new DoctrineFlusher(
+            $container->get(EntityManagerInterface::class),
+            $container->get(EventDispatcher::class)
+        );
     },
 
     UserModel\Service\PasswordHasher::class => function () {
@@ -34,8 +37,7 @@ return [
             $container->get(UserModel\Entity\User\UserRepository::class),
             $container->get(UserModel\Service\PasswordHasher::class),
             $container->get(UserModel\Service\ConfirmTokenizer::class),
-            $container->get(Flusher::class),
-            $container->get(EventDispatcher::class)
+            $container->get(Flusher::class)
         );
     },
 
