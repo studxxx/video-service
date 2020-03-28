@@ -5,12 +5,13 @@ use Api\Infrastructure\Model\Service\DoctrineFlusher;
 use Api\Infrastructure\Model\User\Entity\DoctrineUserRepository;
 use Api\Infrastructure\Model\User\Service\BCryptPasswordHasher;
 use Api\Infrastructure\Model\User\Service\RandConfirmTokenizer;
+use Api\Model\Flusher;
 use Api\Model\User as UserModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 
 return [
-    UserModel\Flusher::class => function (ContainerInterface $container) {
+    Flusher::class => function (ContainerInterface $container) {
         return new DoctrineFlusher($container->get(EntityManagerInterface::class));
     },
 
@@ -32,14 +33,14 @@ return [
             $container->get(UserModel\Entity\User\UserRepository::class),
             $container->get(UserModel\Service\PasswordHasher::class),
             $container->get(UserModel\Service\ConfirmTokenizer::class),
-            $container->get(UserModel\Flusher::class),
+            $container->get(Flusher::class),
         );
     },
 
     UserModel\UseCase\SignUp\Confirm\Handler::class => function (ContainerInterface $container) {
         return new UserModel\UseCase\SignUp\Confirm\Handler(
             $container->get(UserModel\Entity\User\UserRepository::class),
-            $container->get(UserModel\Flusher::class),
+            $container->get(Flusher::class),
         );
     },
 
