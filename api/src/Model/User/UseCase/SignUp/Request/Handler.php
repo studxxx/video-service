@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Api\Model\User\UseCase\SignUp\Request;
 
+use Api\Model\EventDispatcher;
 use Api\Model\Flusher;
 use Api\Model\User\Entity\User\Email;
 use Api\Model\User\Entity\User\User;
@@ -10,6 +11,8 @@ use Api\Model\User\Entity\User\UserId;
 use Api\Model\User\Entity\User\UserRepository;
 use Api\Model\User\Service\ConfirmTokenizer;
 use Api\Model\User\Service\PasswordHasher;
+use DateTimeImmutable;
+use DomainException;
 
 class Handler
 {
@@ -21,17 +24,21 @@ class Handler
     private $tokenizer;
     /** @var Flusher */
     private $flusher;
+    /** @var EventDispatcher */
+    private $dispatcher;
 
     public function __construct(
         UserRepository $users,
         PasswordHasher $hasher,
         ConfirmTokenizer $tokenizer,
-        Flusher $flusher
+        Flusher $flusher,
+        EventDispatcher $dispatcher
     ){
         $this->users = $users;
         $this->hasher = $hasher;
         $this->tokenizer = $tokenizer;
         $this->flusher = $flusher;
+        $this->dispatcher = $dispatcher;
     }
 
     public function handle(Command $command): void
@@ -39,12 +46,12 @@ class Handler
         $email = new Email($command->email);
 
         if ($this->users->hasByEmail($email)) {
-            throw new \DomainException('User with this email already exists.');
+            throw new DomainException('User with this email already exists.');
         }
 
         $user = new User(
             UserId::next(),
-            new \DateTimeImmutable(),
+            new DateTimeImmutable(),
             $email,
             $this->hasher->hash($command->password),
             $token = $this->tokenizer->generate()
@@ -53,5 +60,7 @@ class Handler
         $this->users->add($user);
 
         $this->flusher->flush();
+
+        $this->dispatcher->dispatch(...$user->releaseEvents());
     }
 }
