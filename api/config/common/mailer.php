@@ -5,13 +5,12 @@ use Psr\Container\ContainerInterface;
 
 return [
     Swift_Mailer::class => function (ContainerInterface $container) {
-        $config = $container->get('config')['mailer'];
-//        ['host' => $host, 'port' => $port, 'username' => $username, 'password' => $password, 'encryption' => $encryption] =
-//            $container->get('config')['mailer'];
-        $transport = (new Swift_SmtpTransport($config['host'], $config['port']))
-            ->setUsername($config['username'])
-            ->setPassword($config['password'])
-            ->setEncryption($config['encryption']);
+        ['host' => $host, 'port' => $port, 'username' => $username, 'password' => $password, 'encryption' => $encryption] =
+            $container->get('config')['mailer'];
+        $transport = (new Swift_SmtpTransport($host, $port))
+            ->setUsername($username)
+            ->setPassword($password)
+            ->setEncryption($encryption);
         return new Swift_Mailer($transport);
     },
 
