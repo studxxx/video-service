@@ -6,10 +6,10 @@ use Psr\Container\ContainerInterface;
 
 return [
     Swift_Mailer::class => function (ContainerInterface $container) {
-        $config = $container->get('config')['mailer'];
+        ['local_path' => $localPath] = $container->get('config')['mailer'];
         $transport = new FileTransport(
             new Swift_Events_SimpleEventDispatcher(),
-            $config['local_path']
+            $localPath
         );
         return new Swift_Mailer($transport);
     },
