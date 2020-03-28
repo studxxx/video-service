@@ -15,8 +15,6 @@ if (file_exists('.env')) {
     $container = require 'config/container.php';
     $app = new App($container);
     (require 'config/routes.php')($app, $container);
-//    echo '<pre>';
-//    var_dump($app);die;
     $app->run();
 })();
 

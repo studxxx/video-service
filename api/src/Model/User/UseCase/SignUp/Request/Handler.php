@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace Api\Model\User\UseCase\SignUp\Request;
 
+use Api\Model\Flusher;
 use Api\Model\User\Entity\User\Email;
 use Api\Model\User\Entity\User\User;
 use Api\Model\User\Entity\User\UserId;
 use Api\Model\User\Entity\User\UserRepository;
-use Api\Model\User\Flusher;
 use Api\Model\User\Service\ConfirmTokenizer;
 use Api\Model\User\Service\PasswordHasher;
+use DateTimeImmutable;
+use DomainException;
 
 class Handler
 {
@@ -39,12 +41,12 @@ class Handler
         $email = new Email($command->email);
 
         if ($this->users->hasByEmail($email)) {
-            throw new \DomainException('User with this email already exists.');
+            throw new DomainException('User with this email already exists.');
         }
 
         $user = new User(
             UserId::next(),
-            new \DateTimeImmutable(),
+            new DateTimeImmutable(),
             $email,
             $this->hasher->hash($command->password),
             $token = $this->tokenizer->generate()
@@ -52,6 +54,6 @@ class Handler
 
         $this->users->add($user);
 
-        $this->flusher->flush();
+        $this->flusher->flush($user);
     }
 }
