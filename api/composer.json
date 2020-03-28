@@ -8,6 +8,7 @@
     "ext-mbstring": "*",
     "doctrine/migrations": "^2.2",
     "doctrine/orm": "^2.7",
+    "monolog/monolog": "^2.0",
     "psr/http-server-handler": "^1.0",
     "psr/http-server-middleware": "^1.0",
     "ramsey/uuid": "^3.9",
