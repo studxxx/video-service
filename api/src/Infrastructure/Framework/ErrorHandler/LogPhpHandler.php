@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Api\Infrastructure\Framework\ErrorHandler;
 
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use Slim\Handlers\Error;
+use Slim\Handlers\PhpError;
+use Throwable;
 
-class LogPhpHandler extends Error
+class LogPhpHandler extends PhpError
 {
     /** @var LoggerInterface */
     protected $logger;
@@ -20,9 +20,9 @@ class LogPhpHandler extends Error
         parent::__construct($displayErrorDetails);
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Exception $exception)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, Throwable $error)
     {
-        $this->logger->error($exception->getMessage(), ['exception' => $exception]);
-        return parent::__invoke($request, $response, $exception);
+        $this->logger->error($error->getMessage(), ['exception' => $error]);
+        return parent::__invoke($request, $response, $error);
     }
 }
