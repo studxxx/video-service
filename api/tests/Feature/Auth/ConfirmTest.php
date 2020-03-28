@@ -43,12 +43,10 @@ class ConfirmTest extends WebTestCase
             'token' => 'token',
         ]);
 
-//        self::assertEquals(400, $response->getStatusCode());
+        self::assertEquals(400, $response->getStatusCode());
         self::assertJson($content = $response->getBody()->getContents());
 
         $data = json_decode($content, true);
-        echo $response->getStatusCode();
-        echo print_r($data, true);
 
         self::assertEquals([
             'error' => 'User is not found.'
