@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace OAuth2ServerExamples\Entities;
+namespace Api\Model\OAuth\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
