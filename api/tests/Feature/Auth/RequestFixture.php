@@ -5,8 +5,7 @@ namespace Api\Test\Feature\Auth;
 
 use Api\Model\User\Entity\User\ConfirmToken;
 use Api\Model\User\Entity\User\Email;
-use Api\Model\User\Entity\User\User;
-use Api\Model\User\Entity\User\UserId;
+use Api\Test\Builder\User\UserBuilder;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -14,13 +13,11 @@ class RequestFixture extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
-        $user = new User(
-            UserId::next(),
-            $now = new \DateTimeImmutable(),
-            new Email('test@example.com'),
-            'password_hash',
-            new ConfirmToken($token = 'token', new \DateTimeImmutable('+1 day'))
-        );
+        $user = (new UserBuilder())
+            ->withEmail(new Email('test@example.com'))
+            ->withDate($now = new \DateTimeImmutable())
+            ->withConfirmToken(new ConfirmToken($token = 'token', $now->modify('+1 day')))
+            ->build();
 
         $user->confirmSignup($token, $now);
         $manager->persist($user);
