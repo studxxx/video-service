@@ -25,7 +25,7 @@ class RefreshTokenRepository implements RefreshTokenRepositoryInterface
 
     public function persistNewRefreshToken(RefreshTokenEntityInterface $refreshTokenEntity): void
     {
-        if (!$this->exists($refreshTokenEntity->getIdentifier())) {
+        if ($this->exists($refreshTokenEntity->getIdentifier())) {
             throw UniqueTokenIdentifierConstraintViolationException::create();
         }
         $this->em->persist($refreshTokenEntity);
