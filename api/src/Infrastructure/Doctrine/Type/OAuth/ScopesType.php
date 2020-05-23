@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Api\Infrastructure\Doctrine\Type\OAuth;
 
+use Api\Model\OAuth\Entity\ScopeEntity;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types;
-use OAuth2ServerExamples\Entities\ScopeEntity;
 
 class ScopesType extends Types\JsonType
 {
