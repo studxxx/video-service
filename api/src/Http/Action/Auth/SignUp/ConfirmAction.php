@@ -22,14 +22,21 @@ class ConfirmAction implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $body = json_decode($request->getBody()->getContents(), true);
+        $command = $this->deserialize($request);
+
+        $this->handler->handle($command);
+
+        return new JsonResponse([]);
+    }
+
+    private function deserialize(ServerRequestInterface $request): Command
+    {
+        $body = $request->getParsedBody();
         $command = new Command();
 
         $command->email = $body['email'] ?? '';
         $command->token = $body['token'] ?? '';
 
-        $this->handler->handle($command);
-
-        return new JsonResponse([]);
+        return $command;
     }
 }

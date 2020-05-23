@@ -35,6 +35,7 @@ return [
             'cache_dir' => 'var/cache/doctrine',
             'metadata_dirs' => [
                 'src/Model/User/Entity',
+                'src/Model/OAuth/Entity',
             ],
             'connection' => [
                 'url' => getenv('API_DB_URL'),
@@ -42,6 +43,8 @@ return [
             'types' => [
                 Type\User\UserIdType::NAME => Type\User\UserIdType::class,
                 Type\User\EmailType::NAME => Type\User\EmailType::class,
+                Type\OAuth\ClientType::NAME => Type\OAuth\ClientType::class,
+                Type\OAuth\ScopesType::NAME => Type\OAuth\ScopesType::class,
             ],
         ],
     ],

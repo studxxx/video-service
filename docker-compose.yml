@@ -29,6 +29,9 @@ services:
       dockerfile: php-fpm.docker
     volumes:
     - ./api:/var/www/api
+    environment:
+      XDEBUG_CONFIG: "idekey=PHPSTORM remote_enable=1 remote_connect_back=1"
+      PHP_IDE_CONFIG: "serverName=docker"
   api-php-cli:
     build:
       context: ./api/docker
@@ -38,6 +41,9 @@ services:
     - composer:/root/.composer/cache
     working_dir: /var/www/api
     tty: true
+    environment:
+      XDEBUG_CONFIG: "idekey=PHPSTORM remote_enable=1 remote_connect_back=1"
+      PHP_IDE_CONFIG: "serverName=docker"
   api-postgres:
     image: postgres:12.2-alpine
     volumes:
