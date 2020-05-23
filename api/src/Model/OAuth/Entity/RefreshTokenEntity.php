@@ -20,7 +20,7 @@ class RefreshTokenEntity implements RefreshTokenEntityInterface
 
     /**
      * @ORM\Column(type="string", length=80)
-     * @ORM\Id()
+     * @ORM\Id
      */
     protected $identifier;
     /**
