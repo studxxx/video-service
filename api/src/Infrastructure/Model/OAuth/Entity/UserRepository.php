@@ -9,6 +9,7 @@ use Api\Model\User\Service\PasswordHasher;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use League\OAuth2\Server\Entities\ClientEntityInterface;
+use League\OAuth2\Server\Entities\UserEntityInterface;
 use League\OAuth2\Server\Repositories\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
@@ -29,15 +30,16 @@ class UserRepository implements UserRepositoryInterface
         $password,
         $grantType,
         ClientEntityInterface $clientEntity
-    ): ?UserEntity {
+    ): ?UserEntityInterface {
         /** @var User $user */
-        if ($user = $this->repository->findOneBy(['email' => $username])) {
-            if (!$this->hasher->validate($password, $user->getPasswordHash())) {
-                return null;
-            }
-            return new UserEntity($user->getId()->getId());
+        if (!$user = $this->repository->findOneBy(['email' => $username])) {
+            return null;
         }
 
-        return null;
+        if (!$this->hasher->validate($password, $user->getPasswordHash())) {
+            return null;
+        }
+
+        return new UserEntity($user->getId()->getId());
     }
 }
