@@ -9,9 +9,6 @@ use League\OAuth2\Server\Repositories\ClientRepositoryInterface;
 
 class ClientRepository implements ClientRepositoryInterface
 {
-    const CLIENT_NAME = 'My Awesome App';
-    const REDIRECT_URI = 'http://foo/bar';
-
     /** @var array */
     private $clients;
 
