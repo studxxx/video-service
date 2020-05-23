@@ -19,30 +19,35 @@ use Zend\Diactoros\Uri;
 
 class WebTestCase extends TestCase
 {
-    protected function get(string $uri): ResponseInterface
+    private $fixtures = [];
+
+    protected function get(string $uri, array $headers = []): ResponseInterface
     {
-        return $this->method($uri, 'GET');
+        return $this->method($uri, 'GET', [], $headers);
     }
 
-    protected function post(string $uri, array $params = []): ResponseInterface
+    protected function post(string $uri, array $params = [], array $headers = []): ResponseInterface
     {
-        return $this->method($uri, 'POST', $params);
+        return $this->method($uri, 'POST', $params, $headers);
     }
 
-    protected function method(string $uri, $method, array $params = []): ResponseInterface
+    protected function method(string $uri, $method, array $params = [], array $headers = []): ResponseInterface
     {
         $body = new Stream('php://temp', 'r+');
         $body->write(json_encode($params));
         $body->rewind();
 
-        return $this->request(
-            (new ServerRequest())
-                ->withHeader('Content-Type', 'application/json')
-                ->withHeader('Accept', 'application/json')
-                ->withUri(new Uri('http://test' . $uri))
-                ->withMethod($method)
-                ->withBody($body)
-        );
+        $request = (new ServerRequest())
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Accept', 'application/json')
+            ->withUri(new Uri('http://test' . $uri))
+            ->withMethod($method)
+            ->withBody($body);
+
+        foreach ($headers as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+        return $this->request($request);
     }
 
     protected function request(ServerRequestInterface $request): ResponseInterface
@@ -73,12 +78,21 @@ class WebTestCase extends TestCase
         $em = $container->get(EntityManagerInterface::class);
 
         $loader = new Loader();
-        foreach ($fixtures as $class) {
+        foreach ($fixtures as $name => $class) {
             $fixture = $container->has($class) ? $container->get($class) : new $class;
             $loader->addFixture($fixture);
+            $this->fixtures[$name] = $fixture;
         }
 
         $executor = new ORMExecutor($em, new ORMPurger($em));
         $executor->execute($loader->getFixtures());
+    }
+
+    protected function getFixture($name)
+    {
+        if (!array_key_exists($name, $this->fixtures)) {
+            throw new \InvalidArgumentException("Undefined fixture $name");
+        }
+        return $this->fixtures[$name];
     }
 }
