@@ -23,7 +23,7 @@ class AuthTest extends WebTestCase
     public function testSuccess(): void
     {
         $response = $this->post('/oauth/auth', [
-            'grunt_type' => 'password',
+            'grant_type' => 'password',
             'username' => 'oauth@example.com',
             'password' => 'password',
             'client_id' => 'app',
@@ -54,7 +54,7 @@ class AuthTest extends WebTestCase
     public function testInvalid(): void
     {
         $response = $this->post('/oauth/auth', [
-            'grunt_type' => 'password',
+            'grant_type' => 'password',
             'username' => 'oauth@example.com',
             'password' => 'invalid',
             'client_id' => 'app',
@@ -62,6 +62,6 @@ class AuthTest extends WebTestCase
             'access_type' => 'offline',
         ]);
 
-        self::assertEquals(401, $response->getStatusCode());
+        self::assertEquals(400, $response->getStatusCode());
     }
 }

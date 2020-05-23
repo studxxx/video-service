@@ -16,8 +16,8 @@ class AuthFixture extends AbstractFixture
     {
         $user = (new UserBuilder())
             ->withDate($now = new DateTimeImmutable())
-            ->withEmail(new Email('oath@example.com'))
-            ->withPasswordHash('password')
+            ->withEmail(new Email('oauth@example.com'))
+            ->withPasswordHash('$2y$12$ipWPucUNIWqzsGlXoWYyrOFbN7jmYBGXIyhjtuF10ZsPdqGaViJKi') // password
             ->withConfirmToken(new ConfirmToken($token = 'token', $now->modify('+1 day')))
             ->build();
 
