@@ -1,25 +1,28 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Test\Feature\Auth;
+namespace Api\Test\Feature\Auth\OAuth;
 
 use Api\Model\User\Entity\User\ConfirmToken;
 use Api\Model\User\Entity\User\Email;
 use Api\Test\Builder\User\UserBuilder;
+use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
-class RequestFixture extends AbstractFixture
+class AuthFixture extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
         $user = (new UserBuilder())
-            ->withEmail(new Email('test@example.com'))
-            ->withDate($now = new \DateTimeImmutable())
+            ->withDate($now = new DateTimeImmutable())
+            ->withEmail(new Email('oauth@example.com'))
+            ->withPasswordHash('$2y$12$ipWPucUNIWqzsGlXoWYyrOFbN7jmYBGXIyhjtuF10ZsPdqGaViJKi') // password
             ->withConfirmToken(new ConfirmToken($token = 'token', $now->modify('+1 day')))
             ->build();
 
-        $user->confirmSignup($token, $now);
+        $user->confirmSignup($token, new DateTimeImmutable());
+
         $manager->persist($user);
         $manager->flush();
     }

@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this **shop** project will be documented in this file.
 
+## [0.0.4] - 2020-05-26
+### Added
+- check permissions for actions
+- oauth2
+- Fixture generator
+- libraries league/oauth2-server 
+
 ## [0.0.3] - 2020-03-28
 ### Added
 - mailer

@@ -6,7 +6,9 @@ use Api\Http\Validator\Validator as HttpValidator;
 use Api\Model;
 use Api\Http\Middleware;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use League\OAuth2\Server\AuthorizationServer;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Validator;
 
 return [
@@ -19,6 +21,10 @@ return [
 
     HttpValidator::class => function (ContainerInterface $container) {
         return new HttpValidator($container->get(Validator\Validator\ValidatorInterface::class));
+    },
+
+    Middleware\BodyParamsMiddleware::class => function () {
+        return new Middleware\BodyParamsMiddleware();
     },
 
     Middleware\DomainExceptionMiddleware::class => function () {
@@ -43,6 +49,13 @@ return [
     Action\Auth\SignUp\ConfirmAction::class => function (ContainerInterface $container) {
         return new Action\Auth\SignUp\ConfirmAction(
             $container->get(Model\User\UseCase\SignUp\Confirm\Handler::class),
+        );
+    },
+
+    Action\Auth\OAuthAction::class => function (ContainerInterface $container) {
+        return new Action\Auth\OAuthAction(
+            $container->get(AuthorizationServer::class),
+            $container->get(LoggerInterface::class)
         );
     },
 ];
