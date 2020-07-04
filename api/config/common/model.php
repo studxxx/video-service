@@ -8,6 +8,8 @@ use Api\Infrastructure\Model\User\Service\RandConfirmTokenizer;
 use Api\Model\EventDispatcher;
 use Api\Model\Flusher;
 use Api\Model\User as UserModel;
+use Api\Model\Video as VideoModel;
+use Api\ReadModel;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Container\ContainerInterface;
 
@@ -45,6 +47,31 @@ return [
         return new UserModel\UseCase\SignUp\Confirm\Handler(
             $container->get(UserModel\Entity\User\UserRepository::class),
             $container->get(Flusher::class),
+        );
+    },
+
+    ReadModel\User\UserReadRepository::class => function (ContainerInterface $container) {
+        return new \Api\Infrastructure\ReadModel\User\DoctrineUserReadRepository(
+            $container->get(EntityManagerInterface::class)
+        );
+    },
+
+    VideoModel\UseCase\Author\Create\Handler::class => function (ContainerInterface $container) {
+        return new VideoModel\UseCase\Author\Create\Handler(
+            $container->get(VideoModel\Entity\Author\AuthorRepository::class),
+            $container->get(Flusher::class)
+        );
+    },
+
+    ReadModel\Video\AuthorReadRepository::class => function (ContainerInterface $container) {
+        return new \Api\Infrastructure\ReadModel\Video\DoctrineAuthorReadRepository(
+            $container->get(EntityManagerInterface::class)
+        );
+    },
+
+    ReadModel\Video\VideoReadRepository::class => function (ContainerInterface $container) {
+        return new \Api\Infrastructure\ReadModel\Video\DoctrineVideoReadRepository(
+            $container->get(EntityManagerInterface::class)
         );
     },
 
