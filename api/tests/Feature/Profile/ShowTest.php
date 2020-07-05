@@ -31,6 +31,11 @@ class ShowTest extends WebTestCase
         self::assertEquals(200, $response->getStatusCode());
         self::assertJson($content = $response->getBody()->getContents());
         $data = json_decode($content, true);
+
+        self::assertEquals([
+            'id' => $fixture->getUser()->getId()->getId(),
+            'email' => $fixture->getUser()->getEmail()->getEmail()
+        ], $data);
     }
 
     private function getAuth(): AuthFixture

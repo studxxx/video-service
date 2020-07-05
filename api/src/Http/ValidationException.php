@@ -5,7 +5,7 @@ namespace Api\Http;
 
 use Api\Http\Validator\Errors;
 
-class ValidatorException extends \LogicException
+class ValidationException extends \LogicException
 {
     /** @var Errors */
     private $errors;

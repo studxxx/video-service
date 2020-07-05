@@ -5,6 +5,7 @@ use Api\Http\Action;
 use Api\Http\Validator\Validator as HttpValidator;
 use Api\Model;
 use Api\Http\Middleware;
+use Api\ReadModel;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use League\OAuth2\Server\AuthorizationServer;
 use Psr\Container\ContainerInterface;
@@ -58,4 +59,23 @@ return [
             $container->get(LoggerInterface::class)
         );
     },
+
+    Action\Profile\ShowAction::class => function (ContainerInterface $container) {
+        return new Action\Profile\ShowAction(
+            $container->get(ReadModel\User\UserReadRepository::class)
+        );
+    },
+
+    Action\Author\ShowAction::class => function (ContainerInterface $container) {
+        return new Action\Author\ShowAction(
+            $container->get(ReadModel\Video\AuthorReadRepository::class)
+        );
+    },
+
+    Action\Author\CreateAction::class => function (ContainerInterface $container) {
+        return new Action\Author\CreateAction(
+            $container->get(Model\Video\UseCase\Author\Create\Handler::class),
+            $container->get(HttpValidator::class)
+        );
+    }
 ];
