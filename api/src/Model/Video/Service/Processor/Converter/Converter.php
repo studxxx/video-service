@@ -25,10 +25,11 @@ class Converter
             ->convert($video, $format, $size);
     }
 
-    private function resolveDriver(Format $from, Format $to): Format
+    private function resolveDriver(Format $from, Format $to): Driver
     {
         foreach ($this->drivers as $driver) {
             if ($driver->canConvert($from, $to)) {
+
                 return $driver;
             }
         }

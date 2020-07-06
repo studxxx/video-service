@@ -11,7 +11,13 @@ use Api\Model\Video\Entity\Video\Event\VideoPublished;
 use Api\Model\Video\Entity\Video\Event\VideoRemoved;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="video_videos")
+ */
 class Video implements AggregateRoot
 {
     use EventTrait;
@@ -20,36 +26,50 @@ class Video implements AggregateRoot
     private const STATUS_ACTIVE = 'active';
     /**
      * @var VideoId
+     * @ORM\Column(type="video_video_id")
+     * @ORM\Id
      */
     private $id;
     /**
      * @var Author
+     * @ORM\ManyToOne(targetEntity="Api\Model\Video\Entity\Author\Author")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $author;
     /**
      * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable", name="create_date")
      */
     private $createDate;
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
     private $name;
     /**
      * @var string
+     * @ORM\Column(type="string")
      */
     private $origin;
     /**
      * @var Thumbnail
+     * @ORM\Embedded(class="Api\Model\Video\Entity\Video\Thumbnail")
      */
     private $thumbnail;
-
+    /**
+     * @var ArrayCollection|File[]
+     * @ORM\OneToMany(targetEntity="File", mappedBy="video", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OrderBy({"size.height" = "ASC"})
+     */
     private $files;
     /**
      * @var string
+     * @ORM\Column(type="string", length=16)
      */
     private $status;
     /**
      * @var DateTimeImmutable
+     * @ORM\Column(type="datetime_immutable", nullable=true, name="publish_date")
      */
     private $publishDate;
 
@@ -130,9 +150,12 @@ class Video implements AggregateRoot
         return $this->thumbnail;
     }
 
-    public function getFiles(): ArrayCollection
+    /**
+     * @return File[]
+     */
+    public function getFiles(): array
     {
-        return $this->files;
+        return $this->files->toArray();
     }
 
     public function getStatus(): string

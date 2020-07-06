@@ -6,6 +6,7 @@ namespace Api\Model\Video\UseCase\Video\Create;
 use Api\Model\Flusher;
 use Api\Model\Video\Entity\Author\AuthorId;
 use Api\Model\Video\Entity\Author\AuthorRepository;
+use Api\Model\Video\Entity\Video\Size;
 use Api\Model\Video\Entity\Video\Thumbnail;
 use Api\Model\Video\Entity\Video\Video;
 use Api\Model\Video\Entity\Video\VideoId;
@@ -16,7 +17,7 @@ use Api\Model\Video\Service\Processor\Thumbnailer\Thumbnailer;
 use Api\Model\Video\Service\Uploader;
 use DateTimeImmutable;
 
-class Handle
+class Handler
 {
     /** @var VideoRepository */
     private $videos;
