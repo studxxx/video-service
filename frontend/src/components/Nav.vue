@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top" role="navigation">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark top" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button"
@@ -21,6 +21,8 @@
           <li class="nav-item"><router-link class="nav-link" :to="{name: 'home'}">Home</router-link></li>
           <li class="nav-item"><router-link class="nav-link" :to="{name: 'about'}">About</router-link></li>
           <template v-if="$store.getters.isLoggedIn">
+            <li class="nav-item"><router-link class="nav-link" :to="{name: 'profile'}">Profile</router-link></li>
+            <li class="nav-item"><router-link class="nav-link" :to="{name: 'author'}">Author</router-link></li>
             <li class="nav-item"><a href="" class="nav-link" @click="logout">Log Out</a></li>
           </template>
           <template v-else>
