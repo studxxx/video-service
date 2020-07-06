@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y libpq-dev ffmpeg \
     && pecl install xdebug-2.9.3 \
     && docker-php-ext-enable xdebug
 
-COPY ./php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+ADD ./php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+ADD ./php/default.ini /usr/local/etc/php/conf.d/default.ini
 
 WORKDIR /var/www/api
