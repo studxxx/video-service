@@ -29,6 +29,7 @@ services:
       dockerfile: php-fpm.docker
     volumes:
     - ./api:/var/www/api
+    - ./storage:/var/www/storage
     environment:
       XDEBUG_CONFIG: "idekey=PHPSTORM remote_enable=1 remote_connect_back=1"
       PHP_IDE_CONFIG: "serverName=docker"
@@ -39,6 +40,7 @@ services:
     volumes:
     - ./api:/var/www/api
     - composer:/root/.composer/cache
+    - ./storage:/var/www/storage
     working_dir: /var/www/api
     tty: true
     environment:
@@ -61,6 +63,15 @@ services:
     ports:
     - "1025:1025"
     - "8082:8025"
+
+  storage-nginx:
+    build:
+      context: ./storage/docker
+      dockerfile: nginx.docker
+    volumes:
+    - ./storage:/var/www/storage
+    ports:
+    - "8083:80"
 
 volumes:
   composer:

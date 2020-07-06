@@ -85,4 +85,4 @@ vue create app
 ```
 
 [CHANGELOG]: CHANGELOG.md
-[version-badge]: https://img.shields.io/badge/version-0.0.4-blue.svg
+[version-badge]: https://img.shields.io/badge/version-0.0.5-blue.svg

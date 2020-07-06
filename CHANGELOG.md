@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this **shop** project will be documented in this file.
 
+## [0.0.5] - 2020-07-06
+### Added
+- video model 
+
 ## [0.0.4] - 2020-05-26
 ### Added
 - check permissions for actions

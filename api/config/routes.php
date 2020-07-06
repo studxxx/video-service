@@ -25,4 +25,12 @@ return function (App $app, ContainerInterface $container) {
     $app->group('/profile', function () {
         $this->get('', Action\Profile\ShowAction::class . ':handle');
     })->add($auth);
+
+    $app->group('/author', function () {
+        $this->get('', Action\Author\ShowAction::class . ':handle');
+        $this->post('/create', Action\Author\CreateAction::class . ':handle');
+        $this->get('/videos', Action\Author\Video\IndexAction::class . ':handle');
+        $this->post('/videos/create', Action\Author\Video\CreateAction::class . ':handle');
+        $this->get('/videos/{id}', Action\Author\Video\ShowAction::class . ':handle');
+    })->add($auth);
 };
