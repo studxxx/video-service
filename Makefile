@@ -91,3 +91,6 @@ front-build:
 
 storage-permissions:
 	sudo chmod 777 storage/public/video
+
+websocket-start:
+	docker-compose exec websocket-nodejs npm run start

@@ -40,6 +40,12 @@ axios.interceptors.response.use(null, error => {
 
 });
 
+const socket = new WebSocket(process.env.VUE_APP_WS_URL);
+
+socket.onopen = () => alert('Connected');
+
+socket.onmessage = event => alert(`Received: ${event.data}`);
+
 Vue.use(BootstrapVue);
 
 new Vue({
