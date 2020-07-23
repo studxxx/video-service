@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this **shop** project will be documented in this file.
 
+## [0.0.6] - 2020-07-23
+### Added
+- kafka
+
 ## [0.0.5] - 2020-07-06
 ### Added
 - video model 
