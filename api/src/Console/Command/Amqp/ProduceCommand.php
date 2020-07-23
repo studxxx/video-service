@@ -15,13 +15,13 @@ class ProduceCommand extends Command
 {
     /** @var LoggerInterface */
     private $logger;
-    /** @var ProducerConfig */
-    private $config;
+    /** @var Producer */
+    private $producer;
 
-    public function __construct(LoggerInterface $logger, ProducerConfig $config)
+    public function __construct(LoggerInterface $logger, Producer $producer)
     {
         $this->logger = $logger;
-        $this->config = $config;
+        $this->producer = $producer;
         parent::__construct();
     }
 
@@ -36,10 +36,7 @@ class ProduceCommand extends Command
     {
         $output->writeln('<comment>Produce message</comment>');
 
-        $producer = new Producer();
-        $producer->setLogger($this->logger);
-
-        $producer->send([
+        $this->producer->send([
             [
                 'topic' => 'notifications',
                 'value' => json_encode([
