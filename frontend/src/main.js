@@ -55,7 +55,7 @@ socket.onmessage = event => {
   const data = JSON.parse(event.data);
   console.log(data);
   if (data.type === 'notification') {
-    alert(data.message);
+    store.commit('addNotification', data.message);
   }
 };
 
