@@ -37,4 +37,12 @@ const consumer = new kafka.Consumer(
     {groupId: 'websocket'}
 );
 
-consumer.on('message', message => console.log(message));
+consumer.on('message', message => {
+    console.log('consumed: %s', message.value);
+    const value = JSON.parse(message.value);
+    server.clients.forEach(ws => {
+        if (ws.user_id === value.user_id) {
+            ws.send(message.value);
+        }
+    });
+});

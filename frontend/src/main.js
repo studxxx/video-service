@@ -27,16 +27,16 @@ axios.interceptors.response.use(null, error => {
     }
   }
   return store.dispatch('refresh')
-      .then(() => {
-        return new Promise(resolve => {
-          request.headers['Authorization'] = `Bearer ${store.state.user.access_token}`;
-          resolve(axios(request));
-        });
-      })
-      .catch(() => {
-        router.push({name: 'login'});
-        return Promise.reject(error);
+    .then(() => {
+      return new Promise(resolve => {
+        request.headers['Authorization'] = `Bearer ${store.state.user.access_token}`;
+        resolve(axios(request));
       });
+    })
+    .catch(() => {
+      router.push({name: 'login'});
+      return Promise.reject(error);
+    });
 
 });
 
@@ -51,7 +51,13 @@ socket.onopen = () => {
   }
 };
 
-socket.onmessage = event => alert(`Received: ${event.data}`);
+socket.onmessage = event => {
+  const data = JSON.parse(event.data);
+  console.log(data);
+  if (data.type === 'notification') {
+    alert(data.message);
+  }
+};
 
 Vue.use(BootstrapVue);
 
