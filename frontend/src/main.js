@@ -42,7 +42,14 @@ axios.interceptors.response.use(null, error => {
 
 const socket = new WebSocket(process.env.VUE_APP_WS_URL);
 
-socket.onopen = () => alert('Connected');
+socket.onopen = () => {
+  if (user) {
+    socket.send(JSON.stringify({
+      type: 'auth',
+      token: user.access_token
+    }));
+  }
+};
 
 socket.onmessage = event => alert(`Received: ${event.data}`);
 
