@@ -7,6 +7,7 @@ use Kafka\Producer;
 use Kafka\ProducerConfig;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -14,39 +15,35 @@ class ProduceCommand extends Command
 {
     /** @var LoggerInterface */
     private $logger;
-    /** @var string */
-    private $brokers;
+    /** @var Producer */
+    private $producer;
 
-    public function __construct(LoggerInterface $logger, string $brokers)
+    public function __construct(LoggerInterface $logger, Producer $producer)
     {
         $this->logger = $logger;
-        $this->brokers = $brokers;
+        $this->producer = $producer;
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->setName('kafka:demo:produce');
+        $this
+            ->setName('kafka:demo:produce')
+            ->addArgument('user_id', InputArgument::REQUIRED);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln('<comment>Produce message</comment>');
 
-        $config = ProducerConfig::getInstance();
-        $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList($this->brokers);
-        $config->setBrokerVersion('1.1.0');
-        $config->setRequiredAck(1);
-        $config->setIsAsyn(false);
-
-        $producer = new Producer();
-        $producer->setLogger($this->logger);
-
-        $producer->send([
+        $this->producer->send([
             [
                 'topic' => 'notifications',
-                'value' => 'Hello!',
+                'value' => json_encode([
+                    'type' => 'notification',
+                    'user_id' => $input->getArgument('user_id'),
+                    'message' => 'Hello!',
+                ]),
                 'key' => ''
             ],
         ]);

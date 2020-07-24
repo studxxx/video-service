@@ -1,0 +1,19 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "WS",
+  "repository": "none",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "studxxx",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "kafka-node": "^5.0.0",
+    "ws": "^7.3.1"
+  }
+}

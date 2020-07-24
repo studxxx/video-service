@@ -14,13 +14,13 @@ class ConsumeCommand extends Command
 {
     /** @var LoggerInterface */
     private $logger;
-    /** @var string */
-    private $brokers;
+    /** @var ConsumerConfig */
+    private $config;
 
-    public function __construct(LoggerInterface $logger, string $brokers)
+    public function __construct(LoggerInterface $logger, ConsumerConfig $config)
     {
         $this->logger = $logger;
-        $this->brokers = $brokers;
+        $this->config = $config;
         parent::__construct();
     }
 
@@ -32,12 +32,9 @@ class ConsumeCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln('<comment>Consume message</comment>');
-        $config = ConsumerConfig::getInstance();
-        $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList($this->brokers);
-        $config->setBrokerVersion('1.1.0');
-        $config->setGroupId('demo');
-        $config->setTopics(['notifications']);
+
+        $this->config->setGroupId('demo');
+        $this->config->setTopics(['notifications']);
 
         $consumer = new Consumer();
         $consumer->setLogger($this->logger);
