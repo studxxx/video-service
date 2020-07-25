@@ -94,3 +94,6 @@ storage-permissions:
 
 websocket-start:
 	docker-compose exec websocket-nodejs npm run start
+
+kafka-init:
+	docker-compose exec kafka /opt/kafka/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic notifications --config retention.ms=1680000

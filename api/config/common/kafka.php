@@ -23,7 +23,7 @@ return [
         $params = $container->get('config')['kafka'];
         $config = ConsumerConfig::getInstance();
         $config->setMetadataRefreshIntervalMs(10000);
-        $config->setMetadataBrokerList($this->brokers);
+        $config->setMetadataBrokerList($params['broker_list']);
         $config->setBrokerVersion('1.1.0');
         return $config;
     },

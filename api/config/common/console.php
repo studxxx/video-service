@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Api\Console\Command;
 use Kafka\ConsumerConfig;
-use Kafka\ProducerConfig;
+use Kafka\Producer;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
@@ -17,7 +17,7 @@ return [
     Command\Amqp\ProduceCommand::class => function (ContainerInterface $container) {
         return new Command\Amqp\ProduceCommand(
             $container->get(LoggerInterface::class),
-            $container->get(ProducerConfig::class)
+            $container->get(Producer::class)
         );
     },
     'config' => [

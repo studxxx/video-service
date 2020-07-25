@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Api\Console\Command\Amqp;
 
 use Kafka\Producer;
-use Kafka\ProducerConfig;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

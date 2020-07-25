@@ -1,11 +1,11 @@
 <template>
   <div>
     <b-alert
-            show
-            dismissible
+            show dismissible
             variant="primary"
             v-for="(notification, index) in notifications"
             @dismissed="close(index)"
+            :key="notification.id"
     >
       {{notification}}
     </b-alert>
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
-
   export default {
     name: 'Notifications',
     computed: {
