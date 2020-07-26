@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this **shop** project will be documented in this file.
 
+## [0.0.7] - 2020-07-26
+### Added
+- video created listener
+
 ## [0.0.6] - 2020-07-23
 ### Added
 - kafka
