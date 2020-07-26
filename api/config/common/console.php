@@ -8,14 +8,14 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 return [
-    Command\Amqp\ConsumeCommand::class => function (ContainerInterface $container) {
-        return new Command\Amqp\ConsumeCommand(
+    Command\Kafka\ConsumeCommand::class => function (ContainerInterface $container) {
+        return new Command\Kafka\ConsumeCommand(
             $container->get(LoggerInterface::class),
             $container->get(ConsumerConfig::class)
         );
     },
-    Command\Amqp\ProduceCommand::class => function (ContainerInterface $container) {
-        return new Command\Amqp\ProduceCommand(
+    Command\Kafka\ProduceCommand::class => function (ContainerInterface $container) {
+        return new Command\Kafka\ProduceCommand(
             $container->get(LoggerInterface::class),
             $container->get(Producer::class)
         );
@@ -23,8 +23,8 @@ return [
     'config' => [
         'console' => [
             'commands' => [
-                Command\Amqp\ConsumeCommand::class,
-                Command\Amqp\ProduceCommand::class,
+                Command\Kafka\ConsumeCommand::class,
+                Command\Kafka\ProduceCommand::class,
             ],
         ],
     ],
