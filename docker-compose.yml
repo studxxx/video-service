@@ -21,6 +21,8 @@ services:
       dockerfile: nginx.docker
     volumes:
     - ./api:/var/www/api
+    depends_on:
+    - api-php-fpm
     ports:
     - "8081:80"
   api-php-fpm:
@@ -30,6 +32,10 @@ services:
     volumes:
     - ./api:/var/www/api
     - ./storage:/var/www/storage
+    depends_on:
+      - api-postgres
+      - mailer
+      - rabbitmq
     environment:
       XDEBUG_CONFIG: "idekey=PHPSTORM remote_enable=1 remote_connect_back=1"
       PHP_IDE_CONFIG: "serverName=docker"
@@ -41,6 +47,10 @@ services:
     - ./api:/var/www/api
     - composer:/root/.composer/cache
     - ./storage:/var/www/storage
+    depends_on:
+      - api-postgres
+      - mailer
+      - rabbitmq
     working_dir: /var/www/api
     tty: true
     environment:
@@ -93,7 +103,6 @@ services:
     - "5672:5672"
     volumes:
     - ./rabbitmq/docker/enabled_plugins:/etc/rabbitmq/enabled_plugins
-
 
 volumes:
   composer:
