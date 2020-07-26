@@ -19,13 +19,15 @@ class CreatedListener
     public function __invoke(VideoCreated $event)
     {
         $this->producer->send([
-            'topic' => 'notifications',
-            'value' => \json_encode([
-                'type' => 'notification',
-                'user_id' => $event->author->getId(),
-                'message' => 'Video created',
-            ]),
-            'key' => ''
+            [
+                'topic' => 'notifications',
+                'value' => \json_encode([
+                    'type' => 'notification',
+                    'user_id' => $event->author->getId(),
+                    'message' => 'Video created',
+                ]),
+                'key' => ''
+            ]
         ]);
     }
 }

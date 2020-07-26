@@ -97,3 +97,9 @@ websocket-start:
 
 kafka-init:
 	docker-compose exec kafka /opt/kafka/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic notifications --config retention.ms=1680000
+
+kafka-consume:
+	docker-compose exec api-php-cli php bin/app.php kafka:demo:consume
+
+kafka-produce:
+	docker-compose exec api-php-cli php bin/app.php kafka:demo:produce
