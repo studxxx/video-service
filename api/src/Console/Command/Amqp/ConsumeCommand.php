@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Api\Console\Command\Amqp;
 
+use Api\Infrastructure\Amqp\AMQPHelper;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Symfony\Component\Console\Command\Command;
@@ -33,14 +34,13 @@ class ConsumeCommand extends Command
         $queue = 'messages';
 
         $connection = $this->connection;
-
         $channel = $connection->channel();
-        $channel->queue_declare($queue, false, false, false, true);
-        $channel->exchange_declare($exchange, 'fanout', false, false, true);
-        $channel->queue_bind($queue, $exchange);
+
+        AMQPHelper::initNotifications($channel);
+        AMQPHelper::registerShutdown($connection, $channel);
 
         $consumerTag = 'consumer_' . getmygid();
-        $channel->basic_consume($queue, $consumerTag, false, false, false, false, function ($message) use ($output) {
+        $channel->basic_consume(AMQPHelper::QUEUE_NOTIFICATIONS, $consumerTag, false, false, false, false, function ($message) use ($output) {
             $output->writeln(print_r(json_decode($message->body, true), true));
 
             /** @var AMQPChannel $channel */

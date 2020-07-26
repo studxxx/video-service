@@ -30,8 +30,10 @@ return [
     'config' => [
         'console' => [
             'commands' => [
-                Command\Kafka\ConsumeCommand::class,
-                Command\Kafka\ProduceCommand::class,
+                Command\Amqp\ConsumeCommand::class,
+                Command\Amqp\ProduceCommand::class,
+//                Command\Kafka\ConsumeCommand::class,
+//                Command\Kafka\ProduceCommand::class,
             ],
         ],
     ],
