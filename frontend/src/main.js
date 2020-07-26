@@ -9,7 +9,7 @@ Vue.config.productionTip = false;
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
-let user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem('user'));
 
 if (user) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${user.access_token}`;
@@ -27,18 +27,36 @@ axios.interceptors.response.use(null, error => {
     }
   }
   return store.dispatch('refresh')
-      .then(() => {
-        return new Promise(resolve => {
-          request.headers['Authorization'] = `Bearer ${store.state.user.access_token}`;
-          resolve(axios(request));
-        });
-      })
-      .catch(() => {
-        router.push({name: 'login'});
-        return Promise.reject(error);
+    .then(() => {
+      return new Promise(resolve => {
+        request.headers['Authorization'] = `Bearer ${store.state.user.access_token}`;
+        resolve(axios(request));
       });
-
+    })
+    .catch(() => {
+      router.push({name: 'login'});
+      return Promise.reject(error);
+    });
 });
+
+const socket = new WebSocket(process.env.VUE_APP_WS_URL);
+
+socket.onopen = () => {
+  if (user) {
+    socket.send(JSON.stringify({
+      type: 'auth',
+      token: user.access_token
+    }));
+  }
+};
+
+socket.onmessage = event => {
+  const data = JSON.parse(event.data);
+  console.log(data);
+  if (data.type === 'notification') {
+    store.commit('addNotification', data.message);
+  }
+};
 
 Vue.use(BootstrapVue);
 
