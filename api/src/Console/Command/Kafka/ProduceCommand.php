@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Console\Command\Amqp;
+namespace Api\Console\Command\Kafka;
 
 use Kafka\Producer;
 use Psr\Log\LoggerInterface;
